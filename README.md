@@ -1,116 +1,64 @@
 # 🧠 Detección de Objetos en Video con YOLOv8
+# Video Object Detection with YOLOv8
 
-![License](https://img.shields.io/github/license/yourusername/deteccion-yolo)  
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)  
-![Ultralytics](https://img.shields.io/badge/ultralytics-YOLOv8-green)  
-![OpenCV](https://img.shields.io/badge/opencv-python-red)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.5%2B-orange)
+![Ultralytics](https://img.shields.io/badge/Ultralytics-YOLOv8-red)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-Este proyecto utiliza **YOLOv8** (You Only Look Once) de [Ultralytics](https://github.com/ultralytics/ultralytics) para realizar inferencia sobre un video local. El script procesa el video, detecta objetos según un modelo entrenado previamente y guarda el resultado con las detecciones dibujadas.
+A Python script for object detection in videos using YOLOv8 from Ultralytics. This project demonstrates how to process video files, detect objects frame by frame, and save the annotated results.
 
----
+## Features
 
-## 📁 Estructura del Proyecto
+- 🎥 Video processing with OpenCV
+- � Object detection using YOLOv8 models
+- 📁 Automatic output directory management
+- 📊 Progress tracking during processing
+- ✅ Output verification
 
-```
-Deteccion/
-│
-├── best.pt                          # Modelo entrenado YOLOv8 (.pt)
-├── GH012372_no_audio.mp4            # Ejemplo de video de entrada
-├── main.py                          # Script principal de detección
-└── README.md                        # Este archivo
-```
+## Requirements
 
----
+- Python 3.8+
+- OpenCV (`pip install opencv-python`)
+- Ultralytics YOLO (`pip install ultralytics`)
 
-## 🚀 Funcionalidad del Código
+## Usage
 
-El script hace lo siguiente:
+1. Clone this repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Configure paths in the script:
+   - `MODEL_PATH`: Path to your YOLO model (.pt file)
+   - `VIDEO_INPUT_PATH`: Path to your input video file
+4. Run the script: `python detect_video.py`
 
-1. **Importa librerías necesarias**, incluyendo OpenCV y Ultralytics.
-2. **Configura rutas** para el modelo y el video de entrada.
-3. **Carga el modelo YOLOv8** desde el archivo `.pt`.
-4. **Verifica que el video exista** y obtiene sus propiedades (FPS, resolución, duración).
-5. **Ejecuta la predicción** sobre el video usando `model.predict()` con parámetros configurables.
-6. **Guarda el video procesado** con las detecciones dibujadas.
-7. **Busca automáticamente el video de salida** y muestra información sobre él.
+## Configuration Options
 
----
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `CONF_ORIG` | 0.3 | Confidence threshold |
+| `IOU_ORIG` | 0.5 | Intersection over Union threshold |
+| `OUTPUT_PROJECT_DIR` | `./runs_original_working_structure/detect_video` | Output directory |
 
-## 📦 Requisitos
+## Output Structure
 
-Asegúrate de tener instalados los siguientes paquetes:
+The processed video will be saved in:
+./runs_original_working_structure/detect_video/[video_name]_processed_original/
 
-```bash
-pip install opencv-python ultralytics
-```
-
----
-
-## ⚙️ Configuración
-
-Antes de ejecutar el script, asegúrate de actualizar las siguientes variables en `main.py`:
+## Example
 
 ```python
-MODEL_PATH = 'ruta/a/tu/modelo/best.pt'
-VIDEO_INPUT_PATH = 'ruta/a/tu/video.mp4'
-```
+# Example of running detection
+results = model.predict(
+    source=VIDEO_INPUT_PATH,
+    stream=True,
+    save=True,
+    conf=0.3,
+    iou=0.5
+)
 
-También puedes ajustar los umbrales de confianza y de IoU si es necesario:
+## Troubleshooting
+If you get file not found errors, verify the paths in the script
 
-```python
-CONF_ORIG = 0.3   # Umbral de confianza
-IOU_ORIG = 0.5    # Umbral de IoU (Intersección sobre Unión)
-```
+Ensure your YOLO model is compatible with Ultralytics YOLOv8
 
----
-
-## ▶️ Cómo Ejecutar
-
-Desde la terminal, simplemente ejecuta:
-
-```bash
-python main.py
-```
-
-El video procesado se guardará en:
-
-```
-runs_original_working_structure/detect_video/<nombre_del_video>_processed_original/
-```
-
----
-
-## 📎 Salida del Programa
-
-Una vez completado, el programa mostrará por consola:
-
-- Información del modelo cargado
-- Detalles del video de entrada
-- Ruta del video procesado
-- Verificación del video de salida (FPS, frames, duración)
-
----
-
-## ✅ Resultado Esperado
-
-Un nuevo video con las detecciones realizadas por el modelo YOLOv8 será creado en la carpeta de salida. Puedes abrir este video con cualquier reproductor compatible.
-
----
-
-## 📌 Notas Adicionales
-
-- Si deseas limpiar carpetas antiguas antes de ejecutar, descomenta la sección de limpieza en el código.
-- Asegúrate de usar una GPU si es posible para acelerar el proceso de inferencia.
-- Puedes añadir más parámetros como `imgsz`, `show`, o `save_frames` según tus necesidades.
-
----
-
-## 🛡️ Licencia
-
-MIT License - Consulta el archivo `LICENSE` para más información.
-![License](https://img.shields.io/github/license/ocjorgeoc/DeteccionObjetos) 
-
----
-
-🎉 ¡Esperamos que este script te sea útil para realizar detección de objetos en videos de manera sencilla!
-
+Check OpenCV video codec support if you have issues with video I/O
